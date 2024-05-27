@@ -7,19 +7,25 @@ using UnityEngine;
 [Serializable]
 public class Question
 {
+    public string Furigana;
     public string japanese;
     public string roman;
 }
 
 public class TypingManager : MonoBehaviour
 {
-    [SerializeField] private Question[] questions;
+    [SerializeField] private Question[] questions;// クイズやタイピングゲームの質問データを格納する配列。この配列にはQuestionオブジェクトが含まれ、それぞれが個々の質問を表す。
+    [SerializeField] private TextMeshProUGUI textFurigana; // ここにフリガナ表示のTextMeshProをアタッチする.
     [SerializeField] private TextMeshProUGUI textJapanese; // ここに日本語表示のTextMeshProをアタッチする。
     [SerializeField] private TextMeshProUGUI textRoman; // ここにローマ字表示のTextMeshProをアタッチする。
     [SerializeField] private HPGage hpGage;
+    [SerializeField] AudioSource hitSE; //ここにタイプミスした時のサウンドをアタッチする。
+    [SerializeField] AudioSource missSE; //ここにタイプ成功した時のサウンドをアタッチする。
 
+    // _romanリスト: 現在の質問のローマ字を1文字ずつ保持するリスト
     private readonly List<char> _roman = new List<char>();
 
+    // _romanIndexフィールド: 現在のタイピング位置を示すインデックス
     private int _romanIndex;
     private bool _isWindows; //追加する
     private bool _isMac; //追加する
@@ -50,23 +56,36 @@ public class TypingManager : MonoBehaviour
     {
         if (Event.current.type == EventType.KeyDown)
         {
+            /* 現在のイベントからキーコードを取得(Event.current.kecode)
+               現在のイベントからキーコードを取得(GetCharFromKeyCode())
+               文字をInputKeyメソッドに渡して結果を取得(InputKey())      */
             switch (InputKey(GetCharFromKeyCode(Event.current.keyCode)))
             {
                 case 1: // 正解タイプ時
                     _romanIndex++;
+                    
+                    hitSE.Play();
+
+                    // 現在のローマ字が'@'であるかどうかをチェック
                     if (_roman[_romanIndex] == '@') // 「@」がタイピングの終わりの判定となる。
                     {
+                        // '@'が見つかった場合、新しい質問を初期化する
                         InitializeQuestion();
                     }
                     else
                     {
+                        // '@'でない場合、ローマ字テキストを更新する
+                        /* (現在の _romanIndex が '@' でない場合に textRoman.text を GenerateTextRoman() 
+                        メソッドで生成された新しいテキストに更新することです。
+                        これにより、UI 要素 textRoman に表示されるテキストが適切に更新されます。)*/
                         textRoman.text = GenerateTextRoman();
                     }
                     break;
 
                 case 2: // ミスタイプ時
-                    //HPGageがnullでない場合にTakeDamageメソッドを呼び出す
-                    if (hpGage != null)
+                    missSE.Play();
+                    
+                    if (hpGage != null) //HPGageがnullでない場合にTakeDamageメソッドを呼び出す
                     {
                         hpGage.TakeDamage(0.02f); // ダメージ量を適宜設定
                     }
@@ -76,65 +95,85 @@ public class TypingManager : MonoBehaviour
         }
     }
 
+    // InitializeQuestionメソッド: 質問をランダムに選び、初期化する
     void InitializeQuestion()
     {
+        // ランダムに質問を選ぶ
         Question question = questions[UnityEngine.Random.Range(0, questions.Length)];
 
-        _roman.Clear();
+        _roman.Clear(); // ローマ字リストをクリア
 
-        _romanIndex = 0;
+        _romanIndex = 0; // タイピング位置をリセット
 
+        // 選ばれた質問のローマ字をリストに追加
         char[] characters = question.roman.ToCharArray();
 
+        // characters配列の各文字をリストに追加する
         foreach (char character in characters)
         {
-            _roman.Add(character);
+            _roman.Add(character); // 文字をリストに追加
         }
 
-        _roman.Add('@');
+        _roman.Add('@'); // ローマ字の終わりを示すマークを追加
 
-        textJapanese.text = question.japanese;
-        textRoman.text = GenerateTextRoman();
+        textFurigana.text = question.Furigana; // ふりがなのテキスト表示
+        textJapanese.text = question.japanese; // 日本語のテキストを表示
+        textRoman.text = GenerateTextRoman(); // ローマ字のテキストを表示
     }
 
+    // GenerateTextRomanメソッド: ローマ字のテキストを生成する
     string GenerateTextRoman()
     {
-        string text = "<style=typed>";
+        string text = "<style=typed>"; // タイプされた部分のスタイル
         for (int i = 0; i < _roman.Count; i++)
         {
-            if (_roman[i] == '@')
+            if (_roman[i] == '@') // 終わりのマークでループを抜ける
             {
                 break;
             }
 
-            if (i == _romanIndex)
+            if (i == _romanIndex) // 現在のタイピング位置でスタイルを切り替える
             {
                 text += "</style><style=untyped>";
             }
 
-            text += _roman[i];
+            text += _roman[i]; // ローマ字を追加
         }
 
-        text += "</style>";
+        text += "</style>"; // スタイルを閉じる
 
         return text;
     }
 
+    // InputKeyメソッド: 入力されたキーが正しいかどうかを判定する
     int InputKey(char inputChar)
     {
+        
+        // 3文字前の文字を取得。インデックスが3以上の場合に取得し、そうでない場合はnull文字を代入
         char prevChar3 = _romanIndex >= 3 ? _roman[_romanIndex - 3] : '\0';
+
+        // 2文字前の文字を取得。インデックスが2以上の場合に取得し、そうでない場合はnull文字を代入
         char prevChar2 = _romanIndex >= 2 ? _roman[_romanIndex - 2] : '\0';
+
+        // 1文字前の文字を取得。インデックスが1以上の場合に取得し、そうでない場合はnull文字を代入
         char prevChar = _romanIndex >= 1 ? _roman[_romanIndex - 1] : '\0';
+
+        // 現在の文字を取得
         char currentChar = _roman[_romanIndex];
+
+        // 1文字後の文字を取得
         char nextChar = _roman[_romanIndex + 1];
+        
+        // 2文字後の文字を取得。次の文字が終わりのマーク「@」の場合、そのまま「@」を代入し、そうでない場合は2文字後の文字を取得
         char nextChar2 = nextChar == '@' ? '@' : _roman[_romanIndex + 2];
 
-        if (inputChar == '\0')
+        if (inputChar == '\0') // 無効なキーの場合
         {
             return 0;
         }
 
-        if (inputChar == currentChar)
+        if (inputChar == currentChar) // 正しいキーの場合
+
         {
             return 1;
         }
@@ -548,7 +587,7 @@ public class TypingManager : MonoBehaviour
         return 2;
     }
 
-
+    // GetCharFromKeyCodeメソッド: KeyCodeを文字に変換する
     char GetCharFromKeyCode(KeyCode keyCode)
     {
         switch (keyCode)
