@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [Serializable]
 public class Question
@@ -14,21 +15,20 @@ public class Question
 
 public class TypingManager : MonoBehaviour
 {
-    [SerializeField] private Question[] questions;// クイズやタイピングゲームの質問データを格納する配列。この配列にはQuestionオブジェクトが含まれ、それぞれが個々の質問を表す。
-    [SerializeField] private TextMeshProUGUI textFurigana; // ここにフリガナ表示のTextMeshProをアタッチする.
-    [SerializeField] private TextMeshProUGUI textJapanese; // ここに日本語表示のTextMeshProをアタッチする。
-    [SerializeField] private TextMeshProUGUI textRoman; // ここにローマ字表示のTextMeshProをアタッチする。
+    [SerializeField] private Question[] questions;// 問題を格納する配列
+    [SerializeField] private TextMeshProUGUI textFurigana;
+    [SerializeField] private TextMeshProUGUI textJapanese;
+    [SerializeField] private TextMeshProUGUI textRoman;
     [SerializeField] private HPGage hpGage;
-    [SerializeField] AudioSource hitSE; //ここにタイプミスした時のサウンドをアタッチする。
-    [SerializeField] AudioSource missSE; //ここにタイプ成功した時のサウンドをアタッチする。
+    [SerializeField] AudioSource hitSE;
+    [SerializeField] AudioSource missSE;
 
-    // _romanリスト: 現在の質問のローマ字を1文字ずつ保持するリスト
-    private readonly List<char> _roman = new List<char>();
-
-    // _romanIndexフィールド: 現在のタイピング位置を示すインデックス
-    private int _romanIndex;
-    private bool _isWindows; //追加する
-    private bool _isMac; //追加する
+    private readonly List<char> _roman = new List<char>();// 現在の質問のローマ字を1文字ずつ保持するリスト
+    private int _romanIndex;// 現在のタイピング位置を示すインデックス
+    private int count;
+    private int clearconut = 3; //クリア文字
+    private bool _isWindows;
+    private bool _isMac;
 
     private void Start()
     {
@@ -44,12 +44,12 @@ public class TypingManager : MonoBehaviour
             _isMac = true;
         }
 
-    // // HPGageがnullであるかどうかを確認
-    if (hpGage == null)
-    {
-        // HPGageがnullの場合、シーン内のHPGageコンポーネントを検索して設定する
-        hpGage = FindObjectOfType<HPGage>();
-    }
+        // // HPGageがnullであるかどうかを確認
+        if (hpGage == null)
+        {
+            // HPGageがnullの場合、シーン内のHPGageコンポーネントを検索して設定する
+            hpGage = FindObjectOfType<HPGage>();
+        }
     }
 
     private void OnGUI()
@@ -57,46 +57,47 @@ public class TypingManager : MonoBehaviour
         if (Event.current.type == EventType.KeyDown)
         {
             /* 現在のイベントからキーコードを取得(Event.current.kecode)
-               現在のイベントからキーコードを取得(GetCharFromKeyCode())
+               対応する文字に変換するカスタム関数(GetCharFromKeyCode())
                文字をInputKeyメソッドに渡して結果を取得(InputKey())      */
             switch (InputKey(GetCharFromKeyCode(Event.current.keyCode)))
             {
                 case 1: // 正解タイプ時
                     _romanIndex++;
-                    
-                    hitSE.Play();
 
+                    hitSE.Play();
                     // 現在のローマ字が'@'であるかどうかをチェック
-                    if (_roman[_romanIndex] == '@') // 「@」がタイピングの終わりの判定となる。
+                    if (_roman[_romanIndex] == '@')
                     {
-                        // '@'が見つかった場合、新しい質問を初期化する
-                        InitializeQuestion();
+                        InitializeQuestion(); // '@'が見つかった場合、新しい質問を初期化する
+
+                        count++;
+                        if (count == clearconut)
+                        {
+
+                            Time.timeScale = 0f;
+                            SceneManager.LoadScene("Clear");
+                        }
                     }
                     else
                     {
                         // '@'でない場合、ローマ字テキストを更新する
-                        /* (現在の _romanIndex が '@' でない場合に textRoman.text を GenerateTextRoman() 
-                        メソッドで生成された新しいテキストに更新することです。
-                        これにより、UI 要素 textRoman に表示されるテキストが適切に更新されます。)*/
                         textRoman.text = GenerateTextRoman();
                     }
+
                     break;
 
                 case 2: // ミスタイプ時
-                    missSE.Play();
-                    
-                    if (hpGage != null) //HPGageがnullでない場合にTakeDamageメソッドを呼び出す
+                    if (hpGage != null) //HpGageの参照がされてないかの確認
                     {
+                        missSE.Play();
                         hpGage.TakeDamage(0.02f); // ダメージ量を適宜設定
                     }
-                    // Debug.Log("ミスだよ！バカが！");
                     break;
             }
         }
     }
 
-    // InitializeQuestionメソッド: 質問をランダムに選び、初期化する
-    void InitializeQuestion()
+    void InitializeQuestion() // 質問をランダムに選び、初期化する
     {
         // ランダムに質問を選ぶ
         Question question = questions[UnityEngine.Random.Range(0, questions.Length)];
@@ -121,14 +122,14 @@ public class TypingManager : MonoBehaviour
         textRoman.text = GenerateTextRoman(); // ローマ字のテキストを表示
     }
 
-    // GenerateTextRomanメソッド: ローマ字のテキストを生成する
-    string GenerateTextRoman()
+    string GenerateTextRoman() // ローマ字のテキストを生成する
     {
         string text = "<style=typed>"; // タイプされた部分のスタイル
         for (int i = 0; i < _roman.Count; i++)
         {
             if (_roman[i] == '@') // 終わりのマークでループを抜ける
             {
+
                 break;
             }
 
@@ -145,10 +146,9 @@ public class TypingManager : MonoBehaviour
         return text;
     }
 
-    // InputKeyメソッド: 入力されたキーが正しいかどうかを判定する
-    int InputKey(char inputChar)
+    int InputKey(char inputChar) // 入力されたキーが正しいかどうかを判定する
     {
-        
+
         // 3文字前の文字を取得。インデックスが3以上の場合に取得し、そうでない場合はnull文字を代入
         char prevChar3 = _romanIndex >= 3 ? _roman[_romanIndex - 3] : '\0';
 
@@ -163,7 +163,7 @@ public class TypingManager : MonoBehaviour
 
         // 1文字後の文字を取得
         char nextChar = _roman[_romanIndex + 1];
-        
+
         // 2文字後の文字を取得。次の文字が終わりのマーク「@」の場合、そのまま「@」を代入し、そうでない場合は2文字後の文字を取得
         char nextChar2 = nextChar == '@' ? '@' : _roman[_romanIndex + 2];
 

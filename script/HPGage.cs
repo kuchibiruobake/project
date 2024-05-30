@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 public class HPGage : MonoBehaviour
 {
@@ -34,7 +35,7 @@ public class HPGage : MonoBehaviour
             burnImage
                 .DOFillAmount(targetRate, duration*0.5f) //(緑ゲージの0.5倍の速度で)赤ゲージが減る
                 .SetDelay(0.5f);    //アニメーション開始(healthImageが終わった(緑ゲージが減った)0.5秒後に)
-
+     
         });
 
         // transform
@@ -49,6 +50,10 @@ public class HPGage : MonoBehaviour
     public void TakeDamage(float rate)
     {
         SetGauge(currentRate - rate);
+        if (currentRate <= 0)
+        {
+            SceneManager.LoadScene("Gameover");
+        }
     }
 
     public void Update()

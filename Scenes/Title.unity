@@ -790,42 +790,60 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   questions:
-  - Furigana: "\u3042\u304B\u307F\u306D\u3055\u3060\u306F\u308B"
-    japanese: "\u8D64\u5DBA\u5B9A\u6625"
-    roman: akaminesadaharu
-  - Furigana: "\u3064\u308B\u3055\u304D\u3057\u3085\u3063\u3057\u3093"
-    japanese: "\u9DB4\u5D0E\u51FA\u8EAB"
-    roman: turusakisyuusin
-  - Furigana: "\u3046\u3048\u306F\u3089\u305F\u304F\u3068"
-    japanese: "\u4E0A\u539F\u62D3\u6597"
-    roman: ueharatakuto
-  - Furigana: "\u306F\u3057\u3082\u3068\u304B\u3044\u3068"
-    japanese: "\u6A4B\u672C\u6D77\u6597"
-    roman: hasimotokaito
-  - Furigana: "\u3064\u308B\u3060\u304B\u3064\u3042\u304D"
-    japanese: "\u9DB4\u7530\u6D3B\u6717"
-    roman: tudakatuaki
-  - Furigana: "\u305F\u3051\u3057\u305F\u3053\u3046\u306E\u3059\u3051"
-    japanese: "\u7AF9\u4E0B\u5E78\u4E4B\u52A9"
-    roman: takesitakounosuke
-  - Furigana: "\u3075\u3058\u305F\u306B\u306F\u308B\u3068"
-    japanese: "\u85E4\u8C37\u60A0\u6597"
-    roman: huzitaniharuto
-  - Furigana: "FGO\u3060\u3044\u3059\u304D"
-    japanese: "FGO\u5927\u597D\u304D"
-    roman: fgodaisuki
-  - Furigana: "\u308C\u304A\u306A\u308B\u3069\u3060\u3094\u3043\u3093\u3061"
-    japanese: "\u30EC\u30AA\u30CA\u30EB\u30C9\u30FB\u30C0\u30FB\u30F4\u30A3\u30F3\u30C1"
-    roman: reonarudodavinti
-  - Furigana: "\u3058\u3083\u3093\u306C\u3060\u308B\u304F"
-    japanese: "\u30B8\u30E3\u30F3\u30CC\u30FB\u30C0\u30EB\u30AF"
-    roman: jannudaruku
-  - Furigana: "\u304B\u308C\u30FC\u3046\u3069\u3093"
-    japanese: "\u30AB\u30EC\u30FC\u3046\u3069\u3093"
-    roman: kare-udon
-  - Furigana: "\u304B\u304F\u304B\u304F\u3057\u304B\u3058\u304B"
-    japanese: "\u8D6B\u8D6B\u7136\u7136"
-    roman: kakukakusikazika
+  - Furigana: "\u306B\u307B\u3093"
+    japanese: "\u65E5\u672C"
+    roman: nihon
+  - Furigana: "\u3068\u3046\u304D\u3087\u3046"
+    japanese: "\u6771\u4EAC"
+    roman: toukyou
+  - Furigana: "\u304D\u3087\u3046\u3068"
+    japanese: "\u4EAC\u90FD"
+    roman: kyouto
+  - Furigana: "\u304A\u304A\u3044\u305F"
+    japanese: "\u5927\u5206"
+    roman: oita
+  - Furigana: "\u3061\u3070"
+    japanese: "\u5343\u8449"
+    roman: tiba
+  - Furigana: "\u3057\u304C"
+    japanese: "\u6ECB\u8CC0"
+    roman: siga
+  - Furigana: "\u3055\u304C"
+    japanese: "\u4F50\u8CC0"
+    roman: saga
+  - Furigana: "\u304E\u3075"
+    japanese: "\u5C90\u961C"
+    roman: gifu
+  - Furigana: "\u3075\u304F\u304A\u304B"
+    japanese: "\u798F\u5CA1"
+    roman: hukuoka
+  - Furigana: "\u3050\u3093\u307E"
+    japanese: "\u7FA4\u99AC"
+    roman: gunma
+  - Furigana: "\u307A\u3093\u3089\u3044\u3068"
+    japanese: "\u30DA\u30F3\u30E9\u30A4\u30C8"
+    roman: penraito
+  - Furigana: "\u3042\u3076\u3089\u3075\u3089\u3044"
+    japanese: "\u30A2\u30D6\u30E9\u30D5\u30E9\u30A4"
+    roman: aburahurai
+  - Furigana: "\u3057\u3066\u3093\u306E\u3046"
+    japanese: "\u56DB\u5929\u738B"
+    roman: sitenou
+  - Furigana: "\u3066\u3093\u3061\u3058\u3093"
+    japanese: "\u5929\u5730\u4EBA"
+    roman: hukuwaden
+  - Furigana: "\u3075\u304F\u307E\u3067\u3093"
+    japanese: "\u4F0F\u9B54\u6BBF"
+    roman: hukumaden
+  - Furigana: "\u304A\u304A\u304C\u3057\u3087"
+    japanese: "\u5927\u5FA1\u6240"
+    roman: ogosyo
+  - Furigana: "\u304D\u3093\u3058\u3068\u3046"
+    japanese: "\u91D1\u5B57\u5854"
+    roman: kinzitou
+  - Furigana: "\u304A\u306F\u3053"
+    japanese: "\u5341\u516B\u756A"
+    roman: ohako
   textFurigana: {fileID: 1470243440}
   textJapanese: {fileID: 1530601818}
   textRoman: {fileID: 110745265}
@@ -1262,6 +1280,101 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1074087504}
   m_CullTransparentMesh: 1
+--- !u!1 &1094116960
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1094116964}
+  - component: {fileID: 1094116963}
+  - component: {fileID: 1094116962}
+  - component: {fileID: 1094116961}
+  m_Layer: 5
+  m_Name: Text (Legacy)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1094116961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1094116960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c3c00f46cb0c444f9c667eec48b5519, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  texts:
+  - "\u304A\u3057\u3048\u3066\u3000\u304F\u3060\u3055\u3044"
+  - "\u307D\u307D\u307D\u3000\u3053\u3053\u3053\uFF4B"
+--- !u!114 &1094116962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1094116960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 30
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 50
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: New Text
+--- !u!222 &1094116963
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1094116960}
+  m_CullTransparentMesh: 1
+--- !u!224 &1094116964
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1094116960}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1832074896}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 262, y: 89}
+  m_SizeDelta: {x: 257.1197, y: 101.1201}
+  m_Pivot: {x: 0.49999985, y: 0.5}
 --- !u!1 &1137148604
 GameObject:
   m_ObjectHideFlags: 0
@@ -2556,6 +2669,7 @@ RectTransform:
   - {fileID: 997541482}
   - {fileID: 1221882444}
   - {fileID: 1145298603}
+  - {fileID: 1094116964}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
